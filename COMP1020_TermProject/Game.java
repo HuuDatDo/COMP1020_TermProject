@@ -1,6 +1,7 @@
 package COMP1020_TermProject;
 
 import COMP1020_TermProject.Leaderboard;
+import COMP1020_TermProject.Music;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -128,6 +129,8 @@ public class Game extends JFrame {
 
         var login = new Game();
         login.initButton();
+        backgroundMusic();
+        
 
         // EventQueue.invokeLater(() -> {
         //     // var login = new Tetris();

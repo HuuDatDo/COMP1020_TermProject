@@ -1,5 +1,6 @@
 package COMP1020_TermProject;
 
+import COMP1020_TermProject.Music;
 import COMP1020_TermProject.Shape.Tetrominoe;
 import javax.swing.JLabel;
 import javax.swing.JPanel;  
