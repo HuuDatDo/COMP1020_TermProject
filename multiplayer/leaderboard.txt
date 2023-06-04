@@ -1,2 +1,5 @@
-Hao 10
-Player Name 0
+Dat 11
+Hai 9
+Toan 2
+Dat 1
+Tuan 0 
