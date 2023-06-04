@@ -230,8 +230,8 @@ public class Tetris  {
 	// paints the user interface
 	public void displayUI (Graphics gi) {
 		gi.setColor(UIColor);
-		gi.drawString("LINES CLEARED: " + linesCleared, panelC + 10, panelR + 10);
-		gi.drawString("CURRENT LEVEL: " + level, panelC + 10, panelR + 20);
+		gi.drawString("SCORES: " + linesCleared, panelC + 10, panelR + 10);
+		gi.drawString("SPEED: " + level, panelC + 10, panelR + 20);
 		if (isPaused)
 			gi.drawString("PAUSED", panelC + 10, 30);
 		if (isGameOver)
