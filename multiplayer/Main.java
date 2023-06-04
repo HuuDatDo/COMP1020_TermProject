@@ -150,6 +150,7 @@ public class Main extends JFrame {
         JButton jButton1 = new javax.swing.JButton();
         JButton jButton3 = new javax.swing.JButton();
         JTextField jTextField1 = new javax.swing.JTextField();
+        JCheckBox jCheckBox1 = new javax.swing.JCheckBox();
         JLabel jLabel4 = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
@@ -254,11 +255,23 @@ public class Main extends JFrame {
         getContentPane().add(jTextField1);
         jTextField1.setBounds(330, 140, 150, 40);
 
+        jCheckBox1.setBackground(new java.awt.Color(153, 153, 153));
+        jCheckBox1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jCheckBox1.setText("Music");
+        jCheckBox1.setIcon(new javax.swing.ImageIcon("C:\\Users\\HP\\Downloads\\music.png")); // NOI18N
+        // jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        //     public void actionPerformed(java.awt.event.ActionEvent evt) {
+        //         jCheckBox1ActionPerformed(evt);
+        //     }
+        // });
+        getContentPane().add(jCheckBox1);
+        jCheckBox1.setBounds(420, 320, 360, 100);
+
         jLabel4.setIcon(new javax.swing.ImageIcon("tetris_background.jpg")); // NOI18N
         getContentPane().add(jLabel4);
         jLabel4.setBounds(-3, -4, 800, 460);
         
-        f.add(jLabel1);f.add(jLabel2);f.add(jLabel3);f.add(jLabel4);f.add(jButton1);f.add(jButton2);f.add(jButton3);f.add(jTextField1);
+        f.add(jLabel1);f.add(jLabel2);f.add(jLabel3);f.add(jLabel4);f.add(jButton1);f.add(jButton2);f.add(jButton3);f.add(jTextField1); f.add(jCheckBox1);
         f.setSize(800,480);  
         f.setLayout(null);  
         f.setVisible(true);
