@@ -2,13 +2,6 @@ package COMP1020_TermProject;
 
 import java.io.IOException;
 
-
-// public class Main {
-// 	public static void main (String[] args) throws IOException {
-// 		new Window();
-// 	}
-// }
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -25,6 +18,9 @@ import java.awt.EventQueue;
 import java.awt.event.*;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
+
 
 
 class GameLeaderboardGUI extends JFrame {
@@ -43,7 +40,7 @@ class GameLeaderboardGUI extends JFrame {
         setPreferredSize(new Dimension(600, 400));
 
         // Set a custom background image
-        URL imageUrl = getClass().getResource("background.jpg");
+        URL imageUrl = getClass().getResource("tetris-nes.jpg");
         if (imageUrl != null) {
             ImageIcon backgroundIcon = new ImageIcon(imageUrl);
             JLabel backgroundLabel = new JLabel(backgroundIcon);
@@ -58,9 +55,9 @@ class GameLeaderboardGUI extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Create a title label
-        JLabel titleLabel = new JLabel("Game Leaderboard");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE);
+        JLabel titleLabel = new JLabel("LEADERBOARD");
+        titleLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
+        titleLabel.setForeground(Color.BLACK);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(titleLabel, BorderLayout.NORTH);
 
@@ -71,7 +68,7 @@ class GameLeaderboardGUI extends JFrame {
 
         leaderboardTextArea = new JTextArea();
         leaderboardTextArea.setEditable(false);
-        leaderboardTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        leaderboardTextArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         leaderboardTextArea.setForeground(Color.WHITE);
         leaderboardTextArea.setBackground(new Color(0, 0, 0, 150));
         leaderboardTextArea.setOpaque(true);
@@ -85,17 +82,54 @@ class GameLeaderboardGUI extends JFrame {
     }
 
     public void loadLeaderboardFromFile(String filePath) {
-        StringBuilder leaderboardText = new StringBuilder();
+        List<LeaderboardEntry> leaderboardEntries = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                leaderboardText.append(line).append("\n");
+                String[] parts = line.split(" ");
+                if (parts.length >= 2) {
+                    String playerName = parts[0];
+                    int score = Integer.parseInt(parts[1]);
+                    leaderboardEntries.add(new LeaderboardEntry(playerName, score));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        leaderboardEntries.sort(Comparator.comparingInt(LeaderboardEntry::getScore).reversed());
+
+        StringBuilder leaderboardText = new StringBuilder();
+        leaderboardText.append(String.format("%-5s %-20s %s%n", "Rank", "Name", "Score")); //Need to fix the format
+
+        int rank = 1;
+        for (LeaderboardEntry entry : leaderboardEntries) {
+            String rankEntry = String.format("%-5d", rank);
+            String nameEntry = String.format("%-20s", entry.getPlayerName());
+            String scoreEntry = String.format("%d", entry.getScore());
+            leaderboardText.append(String.format("%s %s %s%n", rankEntry, nameEntry, scoreEntry));
+            rank++;
+        }
+
         leaderboardTextArea.setText(leaderboardText.toString());
+    }
+
+    private static class LeaderboardEntry {
+        private final String playerName;
+        private final int score;
+
+        public LeaderboardEntry(String playerName, int score) {
+            this.playerName = playerName;
+            this.score = score;
+        }
+
+        public String getPlayerName() {
+            return playerName;
+        }
+
+        public int getScore() {
+            return score;
+        }
     }
 }
 
@@ -113,71 +147,6 @@ public class Main extends JFrame {
 
 
     public void initButton() throws IOException{
-        // JFrame f=new JFrame("Login");  
-        // final JTextField tf=new JTextField();  
-        // tf.setBounds(50,50, 150,20);  
-        // JButton b=new JButton("PLAY");  
-        // b.setBounds(50,100,100,30);  
-        // b.addActionListener(new ActionListener(){  
-        //     public void actionPerformed(ActionEvent e){  
-        //         tf.setText("Enter username.");  
-        //     }  
-        // });
-
-        // JButton l=new JButton("SCORES");  
-        // l.setBounds(50,150,100,30);
-
-        // JCheckBox s = new JCheckBox("SOUND");
-        // s.setBounds(50,200,100,30);
-
-        // f.add(b);f.add(tf);f.add(l);f.add(s);
-        // f.setSize(400,400);  
-        // f.setLayout(null);  
-        // f.setVisible(true);
-
-        // b.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e){
-        //         if (b.isEnabled()){
-        //             System.out.println("Add Button is pressed");
-        //             username = tf.getText();
-        //             System.out.print(username);
-        //             try{
-        //                 FileWriter leaderboard = new FileWriter("leaderboard.txt", true);
-        //                 leaderboard.write(username + " ");
-        //                 System.out.println("WRITING USERNAME");
-        //                 leaderboard.close();
-        //             } catch (IOException exc){
-        //                 System.out.println("An error occurred.");
-        //             }
-        //             b.setVisible(false);
-        //             f.setVisible(false);
-        //             tf.setVisible(false);
-        //             // game.setVisible(true);
-		// 			try {
-        //                 new BackgroundMusic();
-		// 				new Window(1);
-		// 			} catch (IOException e1) {
-		// 				// TODO Auto-generated catch block
-		// 				e1.printStackTrace();
-		// 			}
-        //         }
-        //         if (!b.isEnabled()){
-        //             System.out.println("Add Button is not pressed");
-        //         }
-        //     }
-        // });
-
-        // l.addActionListener(new ActionListener(){
-        //     public void actionPerformed(ActionEvent e){
-        //         if (l.isEnabled()){
-        //             GameLeaderboardGUI leaderboardGUI = new GameLeaderboardGUI();
-        //             leaderboardGUI.loadLeaderboardFromFile("leaderboard.txt");
-        //             leaderboardGUI.setVisible(true);
-        //             // leaderboard.setVisible(true);
-        //         }
-        //     }
-        // });
-
         JFrame f=new JFrame("Login");
         JLabel jLabel2 = new javax.swing.JLabel();
         JLabel jLabel3 = new javax.swing.JLabel();
@@ -214,7 +183,6 @@ public class Main extends JFrame {
                     try {
                         new Window(1);
                     } catch (IOException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
                 }
@@ -233,7 +201,6 @@ public class Main extends JFrame {
                     try {
                         new Window(2);
                     } catch (IOException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
                 }
@@ -278,19 +245,9 @@ public class Main extends JFrame {
 
 
 class GUI extends javax.swing.JFrame {
-
-    /**
-     * Creates new form GUI
-     */
     public GUI() {
         initComponents();
     }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
@@ -394,11 +351,6 @@ class GUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -423,15 +375,12 @@ class GUI extends javax.swing.JFrame {
             new GUI().setVisible(true);
         }
         });
-    }
-
-    // Variables declaration - do not modify                     
+    }                 
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    // End of variables declaration                   
+    private javax.swing.JLabel jLabel4;             
 }
