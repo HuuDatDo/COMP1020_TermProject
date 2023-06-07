@@ -10,5 +10,10 @@ The Multiplayer Tetris Game is a fun and exciting multiplayer rendition of the c
 - Leaderboards: Track your performance and compare your scores with other players on the global leaderboard. Aim for the top position!
 - Customizable settings: Tailor the game experience to your preferences by adjusting various settings such as game speed, sounds and more.
 
+## How to run
+
+- Open folder multiplayer
+- Run the Main.java file
+
 ## Contact
 22dat.dh@vinuni.edu.vn
