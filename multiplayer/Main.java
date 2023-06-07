@@ -269,7 +269,7 @@ public class Main extends JFrame {
         jCheckBox1.setBackground(new java.awt.Color(153, 153, 153));
         jCheckBox1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jCheckBox1.setText("Music");
-        jCheckBox1.setIcon(new javax.swing.ImageIcon("C:\\Users\\HP\\Downloads\\music.png")); // NOI18N
+        jCheckBox1.setIcon(new javax.swing.ImageIcon("music.png")); // NOI18N
         // jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
         //     public void actionPerformed(java.awt.event.ActionEvent evt) {
         //         jCheckBox1ActionPerformed(evt);

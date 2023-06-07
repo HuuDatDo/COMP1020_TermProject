@@ -65,10 +65,10 @@ public class Tetris  {
 	public int lockTime = 0;
 	public int scores = 0;
 
-	public  int[] dy = {50, 100, 150, 200, 300};
+	public  int[] y_coordinates = {50, 100, 150, 200, 300};
 
-	public boolean isPaused = false;
-	public boolean isGameOver = false;
+	public boolean Pausing = false;
+	public boolean Lose = false;
 
 	public int combo = 0;
 
@@ -76,7 +76,7 @@ public class Tetris  {
 	public TimerTask move = new TimerTask() {
 		@Override
 		public void run () {
-			if (isPaused || isGameOver)
+			if (Pausing || Lose)
 				return;
 
 			synchronized (hold) {
@@ -88,18 +88,18 @@ public class Tetris  {
 				if (current_piece == null)
 					current_piece = piece.getActive(hold.poll());
 
-				if (movePiece(1, 0)) {
+				if (move(1, 0)) {
 					lockTime = 0;
 					time = 0;
 				} else if (lockTime >= GLOBAL_LOCK) {
-					isGameOver = true;
+					Lose = true;
 					for (int i = 0; i < 4; i+=1) {
 						if (current_piece.position[i].r >= 0)
 							board[current_piece.position[i].r][current_piece.position[i].c] = current_piece.id;
 						if (current_piece.position[i].r >= 2)
-							isGameOver = false;
+							Lose = false;
 					}
-					if (isGameOver) {
+					if (Lose) {
 						try{
 							File file = new File("leaderboard.txt");
 							FileWriter leaderboard = new FileWriter(file,true);
@@ -193,16 +193,16 @@ public class Tetris  {
 		graphics.setColor(UIColor);
 		graphics.drawString("SCORES: " + scores, panelC + 10, panelR + 10);
 		graphics.drawString("SPEED: " + level, panelC + 10, panelR + 20);
-		if (isPaused)
+		if (Pausing)
 			graphics.drawString("PAUSED", panelC + 10, 30);
-		if (isGameOver)
+		if (Lose)
 			graphics.drawString("GAMEOVER", panelC + 10, panelR + 40);
 		// graphics.drawString("HOLD", panelC + 300, panelR + 300);
 		// graphics.drawString("NEXT", panelC + 300, panelR + 50);
 		for (int k = 0; k < 5; k+=1) {
 			for (int i = 0; i < 2; i+=1) {
 				for (int j = 0; j < 4; j+=1) {
-					graphics.fillRect(panelC + j*20 + 300, panelR + i*20 + dy[k], 19, 19);
+					graphics.fillRect(panelC + j*20 + 300, panelR + i*20 + y_coordinates[k], 19, 19);
 				}
 			}
 		}
@@ -210,7 +210,7 @@ public class Tetris  {
 			Piece.Active holdPiece = piece.getActive(holdId-1);
 			graphics.setColor(c[holdPiece.id]);
 			for (Piece.Point block : holdPiece.position) {
-				graphics.fillRect(panelC + (block.c-3)*20+300, panelR + block.r*20 + dy[4], 19, 19);
+				graphics.fillRect(panelC + (block.c-3)*20+300, panelR + block.r*20 + y_coordinates[4], 19, 19);
 			}
 		}
 
@@ -220,7 +220,7 @@ public class Tetris  {
 				Piece.Active nextPiece = piece.getActive(id);
 				graphics.setColor(c[nextPiece.id]);
 				for (Piece.Point block : nextPiece.position) {
-					graphics.fillRect(panelC + (block.c-3)*20+300, panelR + block.r*20 + dy[i], 19, 19);
+					graphics.fillRect(panelC + (block.c-3)*20+300, panelR + block.r*20 + y_coordinates[i], 19, 19);
 				}
 				i+=1;
 				if (i >= 4)
@@ -270,28 +270,10 @@ public class Tetris  {
 		scores = 0;
 		holdId = 0;
 		isHolding = false;
-		isGameOver = false;
+		Lose = false;
 	}
 	
-	public void rotateLeft () {
-		if (current_piece.id == 1)
-			return;
-		Piece.Point[] np = new Piece.Point[4];
-		for (int i = 0; i < 4; i+=1) {
-			int nr = current_piece.position[i].c - current_piece.loc + current_piece.lor;
-			int nc = current_piece.position[i].r - current_piece.lor + current_piece.loc;
-			np[i] = new Piece.Point(nr, nc);
-		}
-		int lor = current_piece.lor;
-		int hir = current_piece.hir;
-		for (int i = 0; i < 4; i+=1) {
-			np[i].r= hir - (np[i].r-lor);
-		}
-		kick(np, current_piece.state*2+1);
-		panel.repaint();
-	}
-	
-	public void rotateRight () {
+	public void rotate () {
 		if (current_piece.id == 1)
 			return;
 		Piece.Point[] np = new Piece.Point[4];
@@ -305,12 +287,12 @@ public class Tetris  {
 		for (int i = 0; i < 4; i+=1) {
 			np[i].c = hic - (np[i].c-loc);
 		}
-		kick(np, current_piece.state*2);
+		push(np, current_piece.state*2);
 		panel.repaint();
 
 	}
 
-	public void kick (Piece.Point[] position, int id) {
+	public void push (Piece.Point[] position, int id) {
 		for (int i = 0; i < 5; i+=1) {
 			boolean valid = true;
 			int dr = current_piece.id == 2 ? mover2[id][i] : mover1[id][i];
@@ -341,7 +323,7 @@ public class Tetris  {
 		}
 	}
 
-	public boolean movePiece (int dr, int dc) {
+	public boolean move (int dr, int dc) {
 		if (current_piece == null)
 			return false;
 		for (Piece.Point block : current_piece.position) {
@@ -366,7 +348,7 @@ public class Tetris  {
 		for (int i = 0; i < 22; i+=1) {
 			for (int j = 0; j < 10; j+=1) {
 				if (board[i][j] != 0 && i - lines < 0) {
-					isGameOver = true;
+					Lose = true;
 					panel.setGameOver();
 				} else if (i - lines >= 0){
 					board[i-lines][j] = board[i][j];

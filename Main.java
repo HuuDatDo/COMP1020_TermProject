@@ -175,7 +175,7 @@ public class Main extends JFrame {
 
         jButton2.setBackground(new java.awt.Color(0, 204, 255));
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\HP\\Downloads\\1p.png")); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon("1p.png")); // NOI18N
         jButton2.setText("Single Player Mode");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,7 +193,7 @@ public class Main extends JFrame {
 
         jButton1.setBackground(new java.awt.Color(255, 255, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\HP\\Downloads\\p2.jpg")); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon("p2.jpg")); // NOI18N
         jButton1.setText("Multiplayer Mode");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,7 +211,7 @@ public class Main extends JFrame {
 
         jButton3.setBackground(new java.awt.Color(102, 255, 0));
         jButton3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\HP\\Downloads\\leaderboard.png")); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon("leaderboard.png")); // NOI18N
         jButton3.setText("Leaderboard");
         getContentPane().add(jButton3);
         jButton3.setBounds(420, 170, 360, 100);
@@ -225,7 +225,7 @@ public class Main extends JFrame {
             }
         });
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\HP\\Downloads\\tetris_background.jpg")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("tetris_background.jpg")); // NOI18N
         getContentPane().add(jLabel4);
         jLabel4.setBounds(-3, -4, 800, 460);
         

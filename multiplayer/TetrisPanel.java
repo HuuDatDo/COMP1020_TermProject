@@ -81,9 +81,9 @@ public class TetrisPanel extends Panel implements KeyListener {
 		// user input
 		// three cases that handle when the user adjusts the game states (ACTIVE, PAUSED, CLOSEd)
 		if (e.getKeyCode() == KeyEvent.VK_P) {
-			boolean currentState = screens[0].isPaused;
+			boolean currentState = screens[0].Pausing;
 			for (int i = 0; i < numOfPlayers; i++)
-				screens[i].isPaused = !currentState;
+				screens[i].Pausing = !currentState;
 			repaint();
 		} else if (e.getKeyCode() == KeyEvent.VK_Q) {
 			System.exit(0);
@@ -93,7 +93,7 @@ public class TetrisPanel extends Panel implements KeyListener {
 			repaint();
 			return;
 		}
-		if (screens[0].isPaused || screens[0].isGameOver)
+		if (screens[0].Pausing || screens[0].Lose)
 			return;
 		int keyCode = e.getKeyCode();
 		for (int i = 0; i < numOfPlayers; i++) {
@@ -101,52 +101,52 @@ public class TetrisPanel extends Panel implements KeyListener {
 				if (keyCode == key[i][j]) {
 					if (screens[i].current_piece == null)
 						break;
-					switch (j) {
-						case 0:
-							screens[i].movePiece(0, -1);
-							repaint();
-							break;
-						case 1:
-							screens[i].movePiece(0, 1);
-							repaint();
-							break;
-						case 2:
-							screens[i].rotateRight();
-							break;	
-						case 3:
-							screens[i].delay = (screens[i].level >= 20 ? Tetris.GLOBAL_DELAY[19] : Tetris.GLOBAL_DELAY[screens[i].level])/8;
-							break;
 
-						case 4:
-							if (screens[i].isHolding)
+					if (j==0){
+						screens[i].move(0, -1);
+						repaint();
+					}
+					if (j==1){
+						screens[i].move(0, 1);
+						repaint();
+					}
+					if (j==2){
+						screens[i].rotate();
+					}
+					if (j==3){
+						screens[i].delay = (screens[i].level >= 20 ? Tetris.GLOBAL_DELAY[19] : Tetris.GLOBAL_DELAY[screens[i].level])/8;
+					}
+					if (j==4){
+						if (screens[i].isHolding)
 								break;
 							if (screens[i].holdId == 0) {
 								screens[i].holdId = screens[i].current_piece.id;
 								screens[i].current_piece = null;
-							} else {
+							} 
+							else {
 								int temp = screens[i].holdId;
 								screens[i].holdId = screens[i].current_piece.id;
 								screens[i].current_piece = screens[i].piece.getActive(temp-1);
 							}
 							screens[i].isHolding = true;
 							screens[i].time = 1 << 30;
-							break;
-						case 5:
-							screens[i].time = 1 << 30;
-							screens[i].lockTime = 1 << 30;
-							while(screens[i].movePiece(1, 0));
-							break;
+					}
+
+					if(j==5){
+						screens[i].time = 1 << 30;
+						screens[i].lockTime = 1 << 30;
+						while(screens[i].move(1, 0));
 					}
 				}
 			}
 		}
 		repaint();
 	}
-	protected void setGameOver () {
+	public void setGameOver () {
 		for (int i = 0; i < numOfPlayers; i++)
-			screens[i].isGameOver = true;
+			screens[i].Lose = true;
 	}
-	protected void sendGarbage (int id, int send) {
+	public void sendGarbage (int id, int send) {
 		if (numOfPlayers == 1)
 			return;
 		int rand = (int)(Math.random()*(numOfPlayers-1));
