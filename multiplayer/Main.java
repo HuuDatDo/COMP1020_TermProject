@@ -8,7 +8,7 @@ import javax.swing.border.Border;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.io.InputStreamReader;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.*;
@@ -23,6 +23,17 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
+
+class Start extends Frame {
+	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	Start (int numPlayers) throws IOException {
+		setTitle("Tetris");
+		setSize(400*numPlayers, 600);
+		setLocation(300, 100);
+		add(new TetrisPanel(numPlayers));
+		setVisible(true);
+	}
+}
 
 
 class GameLeaderboardGUI extends JFrame {
@@ -187,7 +198,7 @@ public class Main extends JFrame {
                         System.out.println("An error occurred.");
                     }
                     try {
-                        new Window(1);
+                        new Start(1);
                         f.setVisible(false);
                     } catch (IOException e1) {
                         // TODO Auto-generated catch block
@@ -210,13 +221,13 @@ public class Main extends JFrame {
                     System.out.print(username);
                     try{
                         FileWriter leaderboard = new FileWriter("leaderboard.txt", true);
-                        leaderboard.write("\n" +username + " ");
+                        leaderboard.write("\n" +username + " 0");
                         leaderboard.close();
                     } catch (IOException exc){
                         System.out.println("An error occurred.");
                     }
                     try {
-                        new Window(2);
+                        new Start(2);
                         f.setVisible(false);
                     } catch (IOException e1) {
                         // TODO Auto-generated catch block
