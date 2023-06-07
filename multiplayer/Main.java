@@ -286,7 +286,6 @@ public class Main extends JFrame {
         f.setSize(800,480);  
         f.setLayout(null);  
         f.setVisible(true);
-
     }   
 
     public static void main(String[] args) throws IOException {

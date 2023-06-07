@@ -47,12 +47,12 @@ public class Piece {
 	}
 	// represents the active piece
 	static class Active {
-		Point[] pos;
+		Point[] position;
 		int id;
 		int lor, hir, loc, hic;
 		int state = 0;
-		Active (Point[] pos, int id) {
-			this.pos = pos;
+		Active (Point[] position, int id) {
+			this.position = position;
 			this.id = id;
 			if (id != 2) {
 				lor = 0; hir = 2;

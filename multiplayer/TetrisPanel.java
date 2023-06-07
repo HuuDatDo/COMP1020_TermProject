@@ -126,7 +126,7 @@ public class TetrisPanel extends Panel implements KeyListener {
 							} else {
 								int temp = screens[i].holdId;
 								screens[i].holdId = screens[i].current_piece.id;
-								screens[i].current_piece = screens[i].p.getActive(temp-1);
+								screens[i].current_piece = screens[i].piece.getActive(temp-1);
 							}
 							screens[i].isHolding = true;
 							screens[i].time = 1 << 30;
@@ -152,7 +152,7 @@ public class TetrisPanel extends Panel implements KeyListener {
 		int rand = (int)(Math.random()*(numOfPlayers-1));
 		if (rand >= id)
 			rand++;
-		screens[rand].addGarbage(send);
+		screens[rand].holdPiece(send);
 //		System.out.println("SENT " + send);
 	}
 }
