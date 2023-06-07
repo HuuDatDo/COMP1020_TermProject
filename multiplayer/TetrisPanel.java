@@ -9,7 +9,7 @@ public class TetrisPanel extends Panel implements KeyListener {
 
 	// variables for double buffered display
 	private BufferedImage bi;
-	private Graphics gi;
+	private Graphics graphics;
 
 	// dimensions of the frame
 	private Dimension dim;
@@ -45,18 +45,18 @@ public class TetrisPanel extends Panel implements KeyListener {
 	public void paint (Graphics g) {
 		dim = getSize();
 		bi = new BufferedImage(dim.width, dim.height, BufferedImage.TYPE_INT_ARGB);
-		gi = bi.getGraphics();
+		graphics = bi.getGraphics();
 		update(g);
 	}
 	public void update (Graphics g) {
-		// gi.setColor(background);
-		gi.fillRect(0, 0, dim.width, dim.height);
+		// graphics.setColor(background);
+		graphics.fillRect(0, 0, dim.width, dim.height);
 		for (int i = 0; i < numOfPlayers; i++) {
 			if (screens[i] == null)
 				continue;
-			screens[i].displayGrid(gi);
-			screens[i].displayPieces(gi);
-			screens[i].displayUI(gi);
+			screens[i].displayGrid(graphics);
+			screens[i].displayPieces(graphics);
+			screens[i].displayUI(graphics);
 		}
 		g.drawImage(bi, 0, 0, this);
 	}
@@ -68,7 +68,7 @@ public class TetrisPanel extends Panel implements KeyListener {
 		for (int i = 0; i < numOfPlayers; i++) {
 			for (int j = 0; j < 6; j++) {
 				if (e.getKeyCode() == key[i][j]) {
-					if (screens[i].curr == null)
+					if (screens[i].current_piece == null)
 						break;
 					if (j == 3)
 						screens[i].delay = (screens[i].level >= 20 ? Tetris.GLOBAL_DELAY[19] : Tetris.GLOBAL_DELAY[screens[i].level]);
@@ -99,7 +99,7 @@ public class TetrisPanel extends Panel implements KeyListener {
 		for (int i = 0; i < numOfPlayers; i++) {
 			for (int j = 0; j < 6; j++) {
 				if (keyCode == key[i][j]) {
-					if (screens[i].curr == null)
+					if (screens[i].current_piece == null)
 						break;
 					switch (j) {
 						case 0:
@@ -121,12 +121,12 @@ public class TetrisPanel extends Panel implements KeyListener {
 							if (screens[i].isHolding)
 								break;
 							if (screens[i].holdId == 0) {
-								screens[i].holdId = screens[i].curr.id;
-								screens[i].curr = null;
+								screens[i].holdId = screens[i].current_piece.id;
+								screens[i].current_piece = null;
 							} else {
 								int temp = screens[i].holdId;
-								screens[i].holdId = screens[i].curr.id;
-								screens[i].curr = screens[i].p.getActive(temp-1);
+								screens[i].holdId = screens[i].current_piece.id;
+								screens[i].current_piece = screens[i].p.getActive(temp-1);
 							}
 							screens[i].isHolding = true;
 							screens[i].time = 1 << 30;
