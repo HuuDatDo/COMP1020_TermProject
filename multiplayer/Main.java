@@ -25,7 +25,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
 class Start extends Frame {
-	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	public BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	Start (int numPlayers) throws IOException {
 		setTitle("Tetris");
 		setSize(400*numPlayers, 600);
@@ -37,7 +37,7 @@ class Start extends Frame {
 
 
 class GameLeaderboardGUI extends JFrame {
-    private JTextArea leaderboardTextArea;
+    public JTextArea leaderboardTextArea;
 
     public GameLeaderboardGUI() {
         setTitle("Game Leaderboard");
@@ -119,9 +119,9 @@ class GameLeaderboardGUI extends JFrame {
         leaderboardTextArea.setText(leaderboardText.toString());
     }
 
-    private static class LeaderboardEntry {
-        private final String playerName;
-        private final int score;
+    public static class LeaderboardEntry {
+        public final String playerName;
+        public final int score;
 
         public LeaderboardEntry(String playerName, int score) {
             this.playerName = playerName;

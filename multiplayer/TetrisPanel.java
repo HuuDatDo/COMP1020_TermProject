@@ -5,26 +5,17 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class TetrisPanel extends Panel implements KeyListener {
-	private static final long serialVersionUID = -8444879183679955468L;
+	public static final long serialVersionUID = -8444879183679955468L;
 
-	// variables for double buffered display
-	private BufferedImage bi;
-	private Graphics graphics;
+	public BufferedImage bi;
+	public Graphics graphics;
+	public Dimension dim;
 
-	// dimensions of the frame
-	private Dimension dim;
-
-	// constants for panel
-	private final Color background = Color.BLACK;
-
-	// Variable representing the number of players
-	private int numOfPlayers;
-	
-	// the left and right portions of the panel
+	public int numOfPlayers;
 	Tetris[] screens;
 	
-	private BufferedReader br;
-	private int[][] key;
+	public BufferedReader br;
+	public int[][] key;
 	TetrisPanel (int numOfPlayers) {
 		this.numOfPlayers = numOfPlayers;
 		key = new int[numOfPlayers][6];
@@ -49,7 +40,6 @@ public class TetrisPanel extends Panel implements KeyListener {
 		update(g);
 	}
 	public void update (Graphics g) {
-		// graphics.setColor(background);
 		graphics.fillRect(0, 0, dim.width, dim.height);
 		for (int i = 0; i < numOfPlayers; i++) {
 			if (screens[i] == null)
@@ -153,6 +143,5 @@ public class TetrisPanel extends Panel implements KeyListener {
 		if (rand >= id)
 			rand++;
 		screens[rand].holdPiece(send);
-//		System.out.println("SENT " + send);
 	}
 }
