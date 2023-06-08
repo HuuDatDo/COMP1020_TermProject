@@ -129,7 +129,13 @@ public class Tetris  {
 					else{
 						combo = 0;
 					}
-					int send = cleared > 0 ? ((1 << (cleared-1))/2 + (combo/2)): 0; 
+					int send;
+					if(cleared >0){
+						send = (1 << (cleared-1))/2 + (combo/2);
+					}
+					else{
+						send = 0;
+					}
 					gameWindow.sendGarbage(id, send);
 					adjustLevel();
 
@@ -283,14 +289,14 @@ public class Tetris  {
 			return;
 		Piece.PieceShape[] np = new Piece.PieceShape[4];
 		for (int i = 0; i < 4; i+=1) {
-			int new_x = current_piece.position[i].y - current_piece.lo_y + current_piece.lo_x;
-			int new_y = current_piece.position[i].x - current_piece.lo_x + current_piece.lo_y;
+			int new_x = current_piece.position[i].y - current_piece.low_y + current_piece.low_x;
+			int new_y = current_piece.position[i].x - current_piece.low_x + current_piece.low_y;
 			np[i] = new Piece.PieceShape(new_x, new_y);
 		}
-		int lo_y = current_piece.lo_y;
-		int hi_y = current_piece.hi_y;
+		int low_y = current_piece.low_y;
+		int high_y = current_piece.high_y;
 		for (int i = 0; i < 4; i+=1) {
-			np[i].y = hi_y - (np[i].y-lo_y);
+			np[i].y = high_y - (np[i].y-low_y);
 		}
 		push(np, current_piece.state*2);
 		gameWindow.repaint();
@@ -307,7 +313,14 @@ public class Tetris  {
 			else{
 				move_right = move_right1[id][i];
 			}
-			int move_down = current_piece.id == 2 ? move_down2[id][i] : move_down1[id][i];
+
+			int move_down;
+			if (current_piece.id ==2){
+				move_down = move_down2[id][i];
+			}
+			else{
+				move_down = move_down1[id][i];
+			}
 			if (current_piece.id ==2){
 				move_down = move_down2[id][i];
 			}
@@ -327,10 +340,10 @@ public class Tetris  {
 					current_piece.position[j].x = position[j].x + move_right;
 					current_piece.position[j].y = position[j].y + move_down;
 				}
-				current_piece.hi_y += move_down;
-				current_piece.lo_y += move_down;
-				current_piece.hi_x += move_right;
-				current_piece.lo_x += move_right;
+				current_piece.high_y += move_down;
+				current_piece.low_y += move_down;
+				current_piece.high_x += move_right;
+				current_piece.low_x += move_right;
 				if (id % 2 == 1)
 					current_piece.state = (current_piece.state+3)%4;
 				else
@@ -355,10 +368,10 @@ public class Tetris  {
 			current_piece.position[i].x += move_right;
 			current_piece.position[i].y += move_down;
 		}
-		current_piece.lo_y += move_down;
-		current_piece.hi_y += move_down;
-		current_piece.lo_x += move_right;
-		current_piece.hi_x += move_right;
+		current_piece.low_y += move_down;
+		current_piece.high_y += move_down;
+		current_piece.low_x += move_right;
+		current_piece.high_x += move_right;
 		return true;
 	}
 	public void holdPiece (int lines) {

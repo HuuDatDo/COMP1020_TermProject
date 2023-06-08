@@ -50,17 +50,17 @@ public class Piece {
 	static class Active {
 		PieceShape[] position;
 		int id;
-		int lo_x, hi_x, lo_y, hi_y;
+		int low_x, high_x, low_y, high_y;
 		int state = 0;
 		Active (PieceShape[] position, int id) {
 			this.position = position;
 			this.id = id;
 			if (id != 2) {
-				lo_x = 0; hi_x = 2;
-				lo_y = 3; hi_y = 5;
+				low_x = 0; high_x = 2;
+				low_y = 3; high_y = 5;
 			} else {
-				lo_x = 0; hi_x = 3;
-				lo_y = 3; hi_y = 6;
+				low_x = 0; high_x = 3;
+				low_y = 3; high_y = 6;
 			}
 		}
 	}
